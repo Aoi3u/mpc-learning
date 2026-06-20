@@ -1,0 +1,142 @@
+# sint: 秘密整数
+# 以下も参照:
+# https://mp-spdz.readthedocs.io/en/latest/Compiler.html#Compiler.types.sint
+
+# 公開された数値を sint に代入できる
+
+a = sint(1)
+b = sint(2)
+
+def test(actual, expected):
+
+    # 値を表示するために reveal() で公開できる
+
+    actual = actual.reveal()
+    print_ln('expected %s, got %s', expected, actual)
+
+# 秘密入力は Player-Data/Input-P<i>-0 から読み込まれる
+# ただし、コマンドラインオプション -I を使う場合は標準入力から読み込まれる
+# その他の入出力方法については以下を参照:
+# https://mp-spdz.readthedocs.io/en/latest/io.html
+
+for i in 0, 1:
+    print_ln('got %s from player %s', sint.get_input_from(i).reveal(), i)
+
+# 一部の算術演算は通常の整数演算と同じように使える
+
+test(a + b, 3)
+test(a * b, 2)
+test(a - b, -1)
+
+# 除算は計算領域によって意味が異なる場合がある
+# また、一部の領域ではビット長の指定が必要になる
+# そのため、整数除算には int_div() を使う
+# kビットの除算には (4k+1) ビットの計算が必要になる
+
+test(b.int_div(a, 15), 2)
+
+# 比較演算は、真なら1、偽なら0を返す
+
+test(a < b, 1)
+test(a <= b, 1)
+test(a >= b, 0)
+test(a > b, 0)
+test(a == b, 0)
+test(a != b, 1)
+
+# 分岐の代わりに if_else() を使える
+# ここでは大きい方の値を求める
+test((a < b).if_else(b, a), 2)
+
+# 配列とループは以下のように使う
+
+a = Array(100, sint)
+
+@for_range(100)
+def f(i):
+    a[i] = sint(i) * sint(i - 1)
+
+test(a[99], 99 * 98)
+
+# ループを使う場合、結果を保存するには Array を使う
+# 以下のような書き方はしてはいけない
+# @for_range(100)
+# def f(i):
+#     a = sint(i)
+# test(a, 99)
+
+# sfix: 固定小数点数
+# 以下も参照:
+# https://mp-spdz.readthedocs.io/en/latest/Compiler.html#Compiler.types.sfix
+
+# 小数部の精度と全体の精度を設定する
+
+sfix.set_precision(16, 31)
+
+# 小数の出力精度を10進桁数で設定する
+
+print_float_precision(4)
+
+# sfix では除算を含む基本的な算術演算をすべて使える
+
+a = sfix(2)
+b = sfix(-0.1)
+
+test(a + b, 1.9)
+test(a - b, 2.1)
+test(a * b, -0.2)
+test(a / b, -20)
+test(a < b, 0)
+test(a <= b, 0)
+test(a >= b, 1)
+test(a > b, 1)
+test(a == b, 0)
+test(a != b, 1)
+
+test((a < b).if_else(a, b), -0.1)
+
+# ここからは秘密入力を用いた計算を行う
+# party 0 が3つの数値を入力し、party 1 が3つの割合を入力する
+# それらを用いて加重平均を計算する
+
+print_ln('Party 0: please input three numbers not adding up to zero')
+print_ln('Party 1: please input any three numbers')
+
+data = Matrix(3, 2, sfix)
+
+# バランスの取れた最適化には @for_range_opt を使う
+# ただし、プレイヤー番号のようにコンパイル時に確定している数値が必要な場合は Python のループを使う
+
+@for_range_opt(3)
+def _(i):
+    for j in range(2):
+        data[i][j] = sfix.get_input_from(j)
+
+# 加重平均を計算する
+
+weight_total = sum(point[0] for point in data)
+result = sum(point[0] * point[1] for point in data) / weight_total
+
+# reveal された秘密データに依存する分岐もサポートされている
+# ガーブル回路では、この処理によりガーブル処理の中断が発生する
+
+@if_e((sum(point[0] for point in data) != 0).reveal())
+def _():
+    print_ln('weighted average: %s', result.reveal())
+@else_
+def _():
+    print_ln('your inputs made no sense')
+
+# 置換行列
+
+M = Matrix(2, 2, sfix)
+M[0][0] = 0
+M[1][0] = 1
+M[0][1] = 1
+M[1][1] = 0
+
+# 行列積
+
+M = data * M
+test(M[0][0], data[0][1].reveal())
+test(M[1][1], data[1][0].reveal())

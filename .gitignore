@@ -1,0 +1,18 @@
+MP-SPDZ/
+
+# MP-SPDZ/Docker runtime/build artifacts if they are copied to the top level.
+Player-Data/
+Prep-Data/
+logs/
+*.bc
+*.sch
+*.x
+*.o
+*.so
+*.a
+
+# Local/editor files.
+.DS_Store
+.vscode/
+*.swp
+*~
