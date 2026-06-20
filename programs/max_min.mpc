@@ -1,0 +1,19 @@
+def max2(a, b):
+    a = a.reveal()
+    b = b.reveal()
+    return (a < b).if_else(b, a)
+
+def min2(a, b):
+    a = a.reveal()
+    b = b.reveal()
+    return (a > b).if_else(b, a)
+
+x = sint(1)
+y = sint(2)
+print_ln('%s',max2(x, y).reveal())
+print_ln('%s',min2(x, y).reveal())
+
+x = sint(5)
+y = sint(5)
+print_ln('%s',max2(x, y).reveal())
+print_ln('%s',min2(x, y).reveal())
