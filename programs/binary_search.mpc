@@ -19,14 +19,12 @@ def binary_search(arr, target):
     @for_range(math.floor(math.log2(len(arr))) + 1)
     def f(i):
         mid.write((left.read() + right.read()).int_div(sint(2), 15))
-        value = read_at(arr, mid.read())
-        match = value == target
-        first_match = match * (1 - found.read())
-        target_is_bigger = value < target
-        target_is_smaller = value > target
+        mid_value = read_at(arr, mid.read()) # arr[mid]
+        match = mid_value == target
+        first_match = match * (1 - found.read()) # match and found.read() != 1
         result.write(first_match.if_else(mid.read(), result.read()))
-        left.write(target_is_bigger.if_else(mid.read() + sint(1), left.read()))
-        right.write(target_is_smaller.if_else(mid.read() - sint(1), right.read()))
+        left.write((mid_value < target).if_else(mid.read() + sint(1), left.read()))
+        right.write((mid_value > target).if_else(mid.read() - sint(1), right.read()))
         found.write(found.read() + first_match)
     
     return result
