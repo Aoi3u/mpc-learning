@@ -1,14 +1,15 @@
 def compare_swap(a, b):
-    a = a.reveal()
-    b = b.reveal()
-    small = (a > b).if_else(b, a)
-    large = (a > b).if_else(a, b)
+    swap = a > b
+    small = swap.if_else(b, a)
+    large = swap.if_else(a, b)
     return small, large
 
 a = sint(1)
 b = sint(2)
-print_ln('%s', compare_swap(a, b))
+small, large = compare_swap(a, b)
+print_ln('%s %s', small.reveal(), large.reveal())
 
 a = sint(5)
 b = sint(5)
-print_ln('%s', compare_swap(a, b))
+small, large = compare_swap(a, b)
+print_ln('%s %s', small.reveal(), large.reveal())

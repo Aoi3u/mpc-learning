@@ -2,6 +2,11 @@
 # 以下も参照:
 # https://mp-spdz.readthedocs.io/en/latest/Compiler.html#Compiler.types.sint
 
+# get_input_from(i)：Party i だけが元の値を知っている秘密入力
+# sint / sfix：秘密分散された値。各 party 単独では中身がわからない
+# +, *, <, if_else()：秘密のまま計算できる
+# reveal()：ここで初めて全員に公開される
+
 # 公開された数値を sint に代入できる
 
 a = sint(1)
