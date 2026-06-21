@@ -100,5 +100,5 @@ bubble sort
 ↓
 linear search
 ↓
-oblivious search
+binary search
 ```

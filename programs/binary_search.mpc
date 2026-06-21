@@ -1,0 +1,43 @@
+import math
+
+def read_at(arr, index):
+    value = MemValue(sint(0))
+
+    @for_range(len(arr))
+    def f(i):
+        match = index == sint(i)
+        value.write(match.if_else(arr[i], value.read()))
+
+    return value.read()
+
+def binary_search(arr, target):
+    left, right = MemValue(sint(0)), MemValue(sint(len(arr) - 1))
+    mid = MemValue((left.read() + right.read()).int_div(sint(2), 15))
+    found = MemValue(sint(0))
+    result = MemValue(sint(-1))
+
+    @for_range(math.floor(math.log2(len(arr))) + 1)
+    def f(i):
+        mid.write((left.read() + right.read()).int_div(sint(2), 15))
+        value = read_at(arr, mid.read())
+        match = value == target
+        first_match = match * (1 - found.read())
+        target_is_bigger = value < target
+        target_is_smaller = value > target
+        result.write(first_match.if_else(mid.read(), result.read()))
+        left.write(target_is_bigger.if_else(mid.read() + sint(1), left.read()))
+        right.write(target_is_smaller.if_else(mid.read() - sint(1), right.read()))
+        found.write(found.read() + first_match)
+    
+    return result
+
+arr = Array(5, sint)
+arr[0] = sint(0)
+arr[1] = sint(2)
+arr[2] = sint(4)
+arr[3] = sint(9)
+arr[4] = sint(16)
+
+target = sint(4)
+
+print_ln('%s', binary_search(arr, target).reveal())
