@@ -12,7 +12,9 @@ mpc-learning/
 └── python/         # mpcに対応するPythonプログラム
 ```
 
-## MP-SPDZの取得
+## セットアップと実行
+
+### MP-SPDZの取得
 
 `MP-SPDZ/` がまだない場合だけ実行する。
 
@@ -21,7 +23,7 @@ cd mpc-learning
 git clone https://github.com/data61/MP-SPDZ.git
 ```
 
-## Dockerイメージのビルド
+### Dockerイメージのビルド
 
 Dockerfileは `MP-SPDZ/` の中にあるため、そこでビルドする。
 
@@ -30,13 +32,13 @@ cd mpc-learning/MP-SPDZ
 docker build --tag mpspdz:mascot-party --build-arg machine=mascot-party.x .
 ```
 
-## tutorial の実行
+### tutorial の実行
 
 ```bash
 docker run --rm -it -e PLAYERS=2 mpspdz:mascot-party ./Scripts/compile-run.py mascot tutorial
 ```
 
-## コンテナ内の作業ディレクトリ
+### コンテナ内の作業ディレクトリ
 
 ```bash
 docker run --rm -it mpspdz:mascot-party pwd
@@ -48,7 +50,7 @@ docker run --rm -it mpspdz:mascot-party pwd
 /usr/src/MP-SPDZ
 ```
 
-## 自作 `.mpc` ファイルの配置
+### 自作 `.mpc` ファイルの配置
 
 Dockerで実行する場合は、ホスト側の `programs/` をコンテナ内の
 `Programs/Source/user_programs/` にマウントするのが扱いやすい。
@@ -65,7 +67,7 @@ programs/tutorial_ja.mpc
 /usr/src/MP-SPDZ/Programs/Source/user_programs/tutorial_ja.mpc
 ```
 
-## 自作プログラムの実行
+### 自作プログラムの実行
 
 例：`programs/tutorial_ja.mpc` を実行する場合。
 
@@ -85,7 +87,7 @@ programs/max_min.mpc        -> user_programs/max_min
 programs/bubble_sort.mpc    -> user_programs/bubble_sort
 ```
 
-## MP-SPDZ内に直接置く場合
+### MP-SPDZ内に直接置く場合
 
 `MP-SPDZ/Programs/Source/` に `.mpc` ファイルを置いてDockerイメージに含めたい場合は、
 ファイルを置いたあとにDockerイメージをビルドし直す必要がある。

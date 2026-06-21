@@ -1,0 +1,27 @@
+def bubble_sort(arr):
+    arr_len = len(arr)
+    @for_range(arr_len)
+    def f(i):
+        @for_range(arr_len - i - 1)
+        def g(j):
+            arr[j], arr[j + 1] = compare_swap(arr[j], arr[j + 1])
+    return arr
+
+def compare_swap(a, b):
+    swap = a > b
+    small = swap.if_else(b, a)
+    large = swap.if_else(a, b)
+    return small, large
+
+arr = Array(5, sint)
+arr[0] = sint(9)
+arr[1] = sint(2)
+arr[2] = sint(4)
+arr[3] = sint(13)
+arr[4] = sint(0)
+
+sorted_arr = bubble_sort(arr)
+
+@for_range(5)
+def print_arr(i):
+    print_ln('%s', sorted_arr[i].reveal())
