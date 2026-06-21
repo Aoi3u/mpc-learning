@@ -5,6 +5,7 @@ PROGRAM ?= tutorial_ja
 
 MPSPDZ_DIR := MP-SPDZ
 USER_PROGRAMS := /usr/src/MP-SPDZ/Programs/Source/user_programs
+PLAYER_DATA := /usr/src/MP-SPDZ/Player-Data
 
 .PHONY: get-mpspdz build tutorial pwd run
 
@@ -21,8 +22,10 @@ pwd:
 	docker run --rm -it $(IMAGE) pwd
 
 run:
+	mkdir -p Player-Data
 	docker run --rm -it \
 		-e PLAYERS=$(PLAYERS) \
 		-v "$(PWD)/programs:$(USER_PROGRAMS):ro" \
+		-v "$(PWD)/Player-Data:$(PLAYER_DATA)" \
 		$(IMAGE) \
 		./Scripts/compile-run.py $(PROTOCOL) user_programs/$(PROGRAM)

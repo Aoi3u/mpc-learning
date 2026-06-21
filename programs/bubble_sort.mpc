@@ -1,3 +1,5 @@
+N = 5
+
 def compare_swap(a, b):
     swap = a > b
     small = swap.if_else(b, a)
@@ -13,15 +15,11 @@ def bubble_sort(arr):
             arr[j], arr[j + 1] = compare_swap(arr[j], arr[j + 1])
     return arr
 
-arr = Array(5, sint)
-arr[0] = sint(9)
-arr[1] = sint(2)
-arr[2] = sint(4)
-arr[3] = sint(13)
-arr[4] = sint(0)
+arr = Array(N, sint)
 
-sorted_arr = bubble_sort(arr)
+@for_range(N)
+def read_arr(i):
+    arr[i] = sint.get_input_from(0)
 
-@for_range(5)
-def print_arr(i):
-    print_ln('%s', sorted_arr[i].reveal())
+print_ln('original: %s', arr.reveal())
+print_ln('sorted: %s', bubble_sort(arr).reveal())
