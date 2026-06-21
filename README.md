@@ -80,7 +80,7 @@ make run PROGRAM=bubble_sort
 
 `PROGRAM` を省略した場合は `tutorial_ja` を実行する。
 
-### MP-SPDZ内に直接置く場合
+### 自作プログラムの実行（MP-SPDZ内に直接置く場合）
 
 `MP-SPDZ/Programs/Source/` に `.mpc` ファイルを置いてDockerイメージに含めたい場合は、
 ファイルを置いたあとにDockerイメージをビルドし直す必要がある。

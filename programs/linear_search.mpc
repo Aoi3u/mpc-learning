@@ -1,9 +1,13 @@
 def linear_search(arr, target):
-    result = Array(len(arr), sint)
+    found = MemValue(sint(0))
+    result = MemValue(sint(-1))
 
     @for_range(len(arr))
     def f(i):
-        result[i] = (arr[i] == target).if_else(1, 0)
+        match = arr[i] == target
+        first_match = match * (1 - found.read()) # match and found.read() != 1
+        result.write(first_match.if_else(sint(i), result.read()))
+        found.write(found.read() + first_match)
     
     return result
 
@@ -11,12 +15,9 @@ arr = Array(5, sint)
 arr[0] = sint(9)
 arr[1] = sint(2)
 arr[2] = sint(4)
-arr[3] = sint(13)
+arr[3] = sint(4)
 arr[4] = sint(0)
 
 target = sint(4)
-result = linear_search(arr, target)
 
-@for_range(len(arr))
-def f(i):
-    print_ln('%s', result[i].reveal())
+print_ln('%s', linear_search(arr, target).reveal())
