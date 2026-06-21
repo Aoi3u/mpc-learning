@@ -19,29 +19,25 @@ mpc-learning/
 `MP-SPDZ/` がまだない場合だけ実行する。
 
 ```bash
-cd mpc-learning
-git clone https://github.com/data61/MP-SPDZ.git
+make get-mpspdz
 ```
 
 ### Dockerイメージのビルド
 
-Dockerfileは `MP-SPDZ/` の中にあるため、そこでビルドする。
-
 ```bash
-cd mpc-learning/MP-SPDZ
-docker build --tag mpspdz:mascot-party --build-arg machine=mascot-party.x .
+make build
 ```
 
 ### tutorial の実行
 
 ```bash
-docker run --rm -it -e PLAYERS=2 mpspdz:mascot-party ./Scripts/compile-run.py mascot tutorial
+make tutorial
 ```
 
 ### コンテナ内の作業ディレクトリ
 
 ```bash
-docker run --rm -it mpspdz:mascot-party pwd
+make pwd
 ```
 
 出力は以下になる。
@@ -72,20 +68,17 @@ programs/tutorial_ja.mpc
 例：`programs/tutorial_ja.mpc` を実行する場合。
 
 ```bash
-cd mpc-learning
-docker run --rm -it \
-  -e PLAYERS=2 \
-  -v "$PWD/programs:/usr/src/MP-SPDZ/Programs/Source/user_programs:ro" \
-  mpspdz:mascot-party \
-  ./Scripts/compile-run.py mascot user_programs/tutorial_ja
+make run PROGRAM=tutorial_ja
 ```
 
 別のファイルを実行する場合は、拡張子 `.mpc` を外して指定する。
 
-```text
-programs/max_min.mpc        -> user_programs/max_min
-programs/bubble_sort.mpc    -> user_programs/bubble_sort
+```bash
+make run PROGRAM=max_min
+make run PROGRAM=bubble_sort
 ```
+
+`PROGRAM` を省略した場合は `tutorial_ja` を実行する。
 
 ### MP-SPDZ内に直接置く場合
 
