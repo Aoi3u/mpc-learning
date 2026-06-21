@@ -89,6 +89,7 @@ make run PROGRAM=bubble_sort
 
 ## 学習予定
 
+### アルゴリズム
 ```text
 tutorial
 ↓
@@ -102,3 +103,9 @@ linear search
 ↓
 binary search
 ```
+
+### 入力形式
+
+- `.mpc` 内に入力値を直書き → 複数パーティ`Player-Data/Input-P<i>-0` から秘密入力
+  - 例: Party 0 が配列を入力し、Party 1 が探索対象の値を入力する
+- 配列長などのサイズ情報は公開値として `.mpc` 側に固定しておく
