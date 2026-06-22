@@ -53,6 +53,13 @@ test(a != b, 1)
 # ここでは大きい方の値を求める
 test((a < b).if_else(b, a), 2)
 
+(a < b).if_else(b, a)
+# 意味は、
+# if a < b:
+#     b
+# else:
+#     a
+
 # 配列とループは以下のように使う
 
 a = Array(100, sint)

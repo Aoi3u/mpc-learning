@@ -6,10 +6,10 @@ def min2(a, b):
 
 x = sint(1)
 y = sint(2)
-print_ln('%s',max2(x, y).reveal())
-print_ln('%s',min2(x, y).reveal())
+print_ln('%s',max2(x, y).reveal()) # 2
+print_ln('%s',min2(x, y).reveal()) # 1
 
 x = sint(5)
 y = sint(5)
-print_ln('%s',max2(x, y).reveal())
-print_ln('%s',min2(x, y).reveal())
+print_ln('%s',max2(x, y).reveal()) # 5
+print_ln('%s',min2(x, y).reveal()) # 5

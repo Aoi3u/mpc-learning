@@ -7,7 +7,7 @@ def compare_swap(a, b):
 a = sint(1)
 b = sint(2)
 small, large = compare_swap(a, b)
-print_ln('%s %s', small.reveal(), large.reveal())
+print_ln('%s %s', small.reveal(), large.reveal()) # 1 2
 
 a = sint(5)
 b = sint(5)

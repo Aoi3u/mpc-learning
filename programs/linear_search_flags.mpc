@@ -1,4 +1,4 @@
-def linear_search(arr, target):
+def linear_search_flags(arr, target):
     result = Array(len(arr), sint)
 
     @for_range(len(arr))
@@ -15,7 +15,7 @@ arr[3] = sint(4)
 arr[4] = sint(0)
 
 target = sint(4)
-result = linear_search(arr, target)
+result = linear_search_flags(arr, target)
 
 @for_range(len(arr))
 def f(i):
